@@ -49,7 +49,7 @@ function createPeerConnection() {
   // ICE Candidate 발생 시 전송
   peerConnection.onicecandidate = (event) => {
     if (event.candidate) {
-      socket.emit("candidatte", event.candidate);
+      socket.emit("candidate", event.candidate);
     }
   };
 }
@@ -83,6 +83,6 @@ socket.on("candidate", async (candidate) => {
   try {
     await peerConnection.addIceCandidate(candidate);
   } catch (error) {
-    console.error("Error adding ICE candidate:", error);
+    console.error(`Error adding ICE candidate: ${error}`);
   }
 });
