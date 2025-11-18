@@ -15,19 +15,19 @@ let localStream;
 let peerConnection;
 
 // "Start" 버튼 클릭 시 카메라 가져오기
-document.getElementById("startButton").onclick = async () => {
+document.getElementById("startButton").addEventListener("click", async () => {
   localStream = await navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true,
   });
-
   localVideo.srcObject = localStream;
-};
+});
 
-document.getElementById("callButton").onclick = async () => {
+// "call" 버튼 클릭 시 PeerConnection 생성 및 offer 전달
+document.getElementById("callButton").addEventListener("click", async () => {
   createPeerConnection();
 
-  // 로컬 스트림 트랙을 피어 연결에 추가
+  // 내 미디어를 PeerConnection에 추가
   localStream.getTracks().forEach((track) => {
     peerConnection.addTrack(track, localStream);
   });
@@ -35,34 +35,38 @@ document.getElementById("callButton").onclick = async () => {
   const offer = await peerConnection.createOffer();
   await peerConnection.setLocalDescription(offer);
 
+  // offer를 시그널링 서버를 통해 상대에게 전달
   socket.emit("offer", offer);
-};
+});
 
+/**
+ * @description PeerConnection 생성 함수
+ */
 function createPeerConnection() {
   peerConnection = new RTCPeerConnection();
 
   // 상대 영상 표시
-  peerConnection.ontrack = (event) => {
+  peerConnection.addEventListener("track", (event) => {
     remoteVideo.srcObject = event.streams[0];
-  };
+  });
 
   // ICE Candidate 발생 시 전송
-  peerConnection.onicecandidate = (event) => {
+  peerConnection.addEventListener("icecandidate", (event) => {
     if (event.candidate) {
       socket.emit("candidate", event.candidate);
     }
-  };
+  });
 }
 
 // ---- Socket.io 이벤트 처리 ----
 
-// Offer 수신 시 Peer 답장 생성(Answer)
+// offer 수신 시 Peer 답장 생성(Answer)
 socket.on("offer", async (offer) => {
   createPeerConnection();
 
   await peerConnection.setRemoteDescription(offer);
 
-  // 로컬 스트림 트랙을 피어 연결에 추가
+  // 내 미디어를 PeerConnection에 추가
   localStream.getTracks().forEach((track) => {
     peerConnection.addTrack(track, localStream);
   });
@@ -73,7 +77,7 @@ socket.on("offer", async (offer) => {
   socket.emit("answer", answer);
 });
 
-// Answer 수신 시
+// answer 수신 시
 socket.on("answer", async (answer) => {
   await peerConnection.setRemoteDescription(answer);
 });
