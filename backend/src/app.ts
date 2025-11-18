@@ -44,7 +44,7 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.send("Express with TypeScript");
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log();
   console.log(`  [Local] http://localhost:${port}`);
   console.log();

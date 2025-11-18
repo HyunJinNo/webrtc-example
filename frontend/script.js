@@ -1,5 +1,5 @@
 // socket.io 인스턴스 생성
-const socket = io("http://localhost:3000");
+const socket = io("http://localhost:4000");
 
 const localVideo = document.getElementById("localVideo");
 const remoteVideo = document.getElementById("remoteVideo");
