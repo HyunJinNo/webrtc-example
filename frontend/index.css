@@ -1,0 +1,9 @@
+video {
+  border: 1px solid black;
+  width: 320px;
+  height: 180px;
+}
+
+button:active {
+  background: #000;
+}
