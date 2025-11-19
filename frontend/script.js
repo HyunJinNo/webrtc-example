@@ -1,5 +1,7 @@
 // socket.io 인스턴스 생성
-const socket = io("http://192.168.45.126:4000");
+// 백엔드 시그널링 서버에 연결합니다.
+// 여기서는 localtunnel 도메인을 사용합니다.
+const socket = io("https://wet-cases-roll.loca.lt");
 
 const localVideo = document.getElementById("localVideo");
 const remoteVideo = document.getElementById("remoteVideo");
