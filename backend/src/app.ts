@@ -1,4 +1,6 @@
-// offer/answer/candidate를 교환하는 역할만 수행하는 서버(시그널링)
+/**
+ * offer/answer/candidate를 교환하는 역할만 수행하는 서버(시그널링)
+ */
 
 import express, {
   type NextFunction,
