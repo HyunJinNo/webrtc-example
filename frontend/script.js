@@ -67,7 +67,9 @@ document.getElementById("callButton").addEventListener("click", async () => {
  * @description PeerConnection 생성 함수
  */
 function createPeerConnection() {
-  peerConnection = new RTCPeerConnection();
+  peerConnection = new RTCPeerConnection({
+    iceServers: [{ urls: "stun:stun.l.google.com:19302" }], // Google의 공용 STUN 서버
+  });
 
   // 원격 트랙이 수신되면 원격 비디오에 연결합니다.
   // 상대 영상이 들어오면 remoteVideo에 표시합니다.
