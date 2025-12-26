@@ -26,7 +26,7 @@ const remoteVideo = document.getElementById("remoteVideo");
 let localStream;
 
 /**
- * @description P2P 연결을 관리한 RTCPeerConnection 객체를 담을 변수
+ * @description P2P 연결을 관리할 RTCPeerConnection 객체를 담을 변수
  * @type {RTCPeerConnection}
  */
 let peerConnection;
